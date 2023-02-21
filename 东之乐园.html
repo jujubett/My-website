@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>东之乐园</title>
+    <style>
+        body {
+            width: 100vw;
+            height: 100vh;
+            background-color: #100;
+            display: flex;
+            justify-content: center;
+            perspective: 1500px;
+        }
+
+        #pic {
+            margin-top: 200px;
+            display: flex;
+            justify-content: center;
+            width: 180px;
+            transform-style: preserve-3d;
+            animation: action 20s linear infinite;
+        }
+
+        @keyframes action {
+            from {
+                transform: rotateY(0deg);
+            }
+
+            to {
+                transform: rotateY(360deg);
+            }
+        }
+
+        #pic:hover {
+            cursor: pointer;
+            animation-play-state: paused;
+        }
+
+        #pic img {
+            position: absolute;
+            width: 180px;
+            -webkit-box-reflect: below 15px -webkit-linear-gradient(transparent 10%, rgba(255, 255, 255, 0.3));
+        }
+
+        #pic img:nth-child(1) {
+            transform: translateZ(500px);
+        }
+
+        #pic img:nth-child(2) {
+            width: 500px;
+            transform: rotateY(60deg) translateZ(500px);
+        }
+
+        #pic img:nth-child(3) {
+            transform: rotateY(120deg) translateZ(500px);
+        }
+
+        #pic img:nth-child(4) {
+            transform: rotateY(180deg) translateZ(500px);
+        }
+
+        #pic img:nth-child(5) {
+            transform: rotateY(240deg) translateZ(500px);
+            width: 300px;
+        }
+
+        #pic img:nth-child(6) {
+            transform: rotateY(300deg) translateZ(500px);
+            width: 300px;
+        }
+    </style>
+</head>
+
+<body>
+    <div style="font-size: xx-large;color: rgb(174, 234, 234);">东之乐园
+    </div>
+    <canvas id='d1' style="position:absolute;z-index:-2;"></canvas>
+    <script>
+        let canvas = document.querySelector('canvas');
+        let context = canvas.getContext('2d');
+        let w = window.innerWidth;
+        let h = window.innerHeight;
+        canvas.width = w;
+        canvas.height = h;
+
+        let num = 200;
+        let snows = [];
+        for (let i = 0; i < num; i++) {
+            snows.push({
+                x: Math.random() * w,
+                y: Math.random() * h,
+                r: Math.random() * 10 + 1
+            });
+        }
+        let move = () => {
+            for (let i = 0; i < num; i++) {
+                let snow = snows[i];
+                snow.x += Math.random() * 2 + 1;
+                snow.y += Math.random() * 2 + 1;
+                if (snow.x > w) {
+                    snow.x = 0;
+                }
+                if (snow.y > h) {
+                    snow.y = 0;
+                }
+
+            }
+        }
+        let draw = () => {
+            context.clearRect(0, 0, w, h);
+            context.beginPath();
+            context.fillStyle = 'rgb(255,255,255)';
+            context.shadowColor = 'rgb(255,255,255)';
+            context.shadowBlur = 10;
+
+            for (let i = 0; i < num; i++) {
+                let snow = snows[i];
+                context.moveTo(snow.x, snow.y);
+                context.arc(snow.x, snow.y, snow.r, 0, Math.PI * 2);//arc画圆
+            }
+            context.fill();
+            context.closePath();
+            move();
+        }
+        draw();
+        setInterval(draw, 30);
+    </script>
+    <div style="position:absolute">
+        <div id="pic">
+            <img src="./1.jpg" alt="">
+            <img src="./2.jpg" alt="">
+            <img src="./3.jpg" alt="">
+            <img src="./4.jpg" alt="">
+            <img src="./5.jpg" alt="">
+            <img src="./6.jpg" alt="">
+
+        </div>
+</body>
+
+</html>
